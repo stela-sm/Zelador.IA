@@ -55,9 +55,8 @@ export const uploadImagem = async (file) => {
 
 export const listarChamados = async () => {
   try {
-    console.log("Fetching from:", `${VITE_API_URL}//api/chamados`);
-    console.log("Admin secret:", VITE_ADMIN_SECRET);
-    const res = await fetch(`${VITE_API_URL}//api/chamados`, {
+    console.log("Fetching from:", `${VITE_API_URL}/api/chamados`);
+    const res = await fetch(`${VITE_API_URL}/api/chamados`, {
       headers: { "x-admin-secret": VITE_ADMIN_SECRET },
     });
     return await handleResponse(res);
@@ -69,7 +68,7 @@ export const listarChamados = async () => {
 
 export const atualizarStatus = async (id, status) => {
   try {
-    const res = await fetch(`${VITE_API_URL}//api/chamados/${id}/status`, {
+    const res = await fetch(`${VITE_API_URL}/api/chamados/${id}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -86,7 +85,7 @@ export const atualizarStatus = async (id, status) => {
 
 export const deletarChamado = async (id) => {
   try {
-    const res = await fetch(`${VITE_API_URL}//api/chamados/${id}`, {
+    const res = await fetch(`${VITE_API_URL}/api/chamados/${id}`, {
       method: "DELETE",
       headers: { "x-admin-secret": VITE_ADMIN_SECRET },
     });
