@@ -1,5 +1,7 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
-const ADMIN_SECRET = import.meta.env.VITE_ADMIN_SECRET;
+const VITE_API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const VITE_ADMIN_SECRET = import.meta.env.VITE_ADMIN_SECRET;
+
+console.log("Admin Secret exists:", !!VITE_ADMIN_SECRET);
 
 const handleResponse = async (res) => {
   try {
@@ -17,7 +19,7 @@ const handleResponse = async (res) => {
 
 export const criarChamado = async (dados) => {
   try {
-    const res = await fetch(`${API_URL}/api/chamados`, {
+    const res = await fetch(`${VITE_API_URL}/api/chamados`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dados),
@@ -35,8 +37,8 @@ export const uploadImagem = async (file) => {
     const form = new FormData();
     form.append("imagem", file);
 
-    console.log("Enviando para:", `${API_URL}/api/upload`);
-    const res = await fetch(`${API_URL}/api/upload`, {
+    console.log("Enviando para:", `${VITE_API_URL}/api/upload`);
+    const res = await fetch(`${VITE_API_URL}/api/upload`, {
       method: "POST",
       body: form,
     });
@@ -53,10 +55,10 @@ export const uploadImagem = async (file) => {
 
 export const listarChamados = async () => {
   try {
-    console.log("Fetching from:", `${API_URL}/api/chamados`);
-    console.log("Admin secret:", ADMIN_SECRET);
-    const res = await fetch(`${API_URL}/api/chamados`, {
-      headers: { "x-admin-secret": ADMIN_SECRET },
+    console.log("Fetching from:", `${VITE_API_URL}/api/chamados`);
+    console.log("Admin secret:", VITE_ADMIN_SECRET);
+    const res = await fetch(`${VITE_API_URL}/api/chamados`, {
+      headers: { "x-admin-secret": VITE_ADMIN_SECRET },
     });
     return await handleResponse(res);
   } catch (err) {
@@ -67,11 +69,11 @@ export const listarChamados = async () => {
 
 export const atualizarStatus = async (id, status) => {
   try {
-    const res = await fetch(`${API_URL}/api/chamados/${id}/status`, {
+    const res = await fetch(`${VITE_API_URL}/api/chamados/${id}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
-        "x-admin-secret": ADMIN_SECRET,
+        "x-admin-secret": VITE_ADMIN_SECRET,
       },
       body: JSON.stringify({ status }),
     });
@@ -84,9 +86,9 @@ export const atualizarStatus = async (id, status) => {
 
 export const deletarChamado = async (id) => {
   try {
-    const res = await fetch(`${API_URL}/api/chamados/${id}`, {
+    const res = await fetch(`${VITE_API_URL}/api/chamados/${id}`, {
       method: "DELETE",
-      headers: { "x-admin-secret": ADMIN_SECRET },
+      headers: { "x-admin-secret": VITE_ADMIN_SECRET },
     });
     return await handleResponse(res);
   } catch (err) {

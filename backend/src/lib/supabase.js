@@ -1,11 +1,12 @@
-const { createClient } = require("@supabase/supabase-js");
-require("dotenv").config();
+import { createClient } from "@supabase/supabase-js";
+import "dotenv/config";
 
 console.log("Supabase Config:");
 console.log("URL:", process.env.SUPABASE_URL);
 console.log("Key exists:", !!process.env.SUPABASE_SERVICE_ROLE_KEY);
 
 let supabase;
+
 try {
   supabase = createClient(
     process.env.SUPABASE_URL,
@@ -19,6 +20,7 @@ try {
   console.log("Supabase client created successfully");
 } catch (err) {
   console.error("Failed to create Supabase client:", err.message);
+
   // Create a mock client that returns empty data
   supabase = {
     from: () => ({
@@ -50,7 +52,14 @@ try {
         eq: () => Promise.resolve({ error: null }),
       }),
     }),
+    storage: {
+      from: () => ({
+        upload: () => Promise.resolve({ data: null, error: null }),
+        createSignedUrl: () =>
+          Promise.resolve({ data: { signedUrl: null }, error: null }),
+      }),
+    },
   };
 }
 
-module.exports = supabase;
+export default supabase;

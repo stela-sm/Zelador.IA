@@ -2,12 +2,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Chat from './pages/Chat'
 import Admin from './pages/Admin'
+import AdminLogin from './pages/AdminLogin'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/chat" element={<Chat />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>

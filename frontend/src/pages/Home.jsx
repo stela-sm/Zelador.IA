@@ -1,17 +1,21 @@
-
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Home() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-50 to-white">
+      
       {/* Header */}
-      <header className="bg-green-700 text-white py-4 px-6 flex items-center justify-between">
-        <h1 className="text-xl font-bold">🏙️ Zelador.IA</h1>
+      <header className="flex items-center justify-between px-8 py-5">
+        <h1 className="text-2xl font-bold text-sky-950">
+          Zelador.IA
+        </h1>
+
         <button
-          onClick={() => navigate('/admin')}
-          className="text-sm underline opacity-80 hover:opacity-100"
+          onClick={() => navigate("/admin/login")}
+          className="text-green-700 font-medium hover:underline"
         >
           Painel Admin
         </button>
@@ -19,39 +23,51 @@ export default function Home() {
 
       {/* Hero */}
       <main className="flex-1 flex flex-col items-center justify-center text-center px-6">
-        <h2 className="text-4xl font-bold text-gray-800 mb-4">
-          Reporte problemas da sua cidade
+       <img
+  src={logo}
+  alt="Zelador.IA"
+  className="mb-8"
+  style={{ width: "120px" }}
+/>
+
+        <h2 className="text-5xl font-bold text-sky-950 max-w-3xl leading-tight">
+          Sua cidade melhor começa com um registro
         </h2>
-        <p className="text-gray-500 text-lg mb-8 max-w-md">
-          Buracos, postes apagados, vazamentos e muito mais. 
-          Registre em segundos e acompanhe o status.
+
+        <p className="mt-6 text-lg text-gray-600 max-w-2xl">
+          Informe buracos, postes apagados, vazamentos e outros problemas
+          urbanos através de um chatbot inteligente.
         </p>
+
         <button
-          onClick={() => navigate('/chat')}
-          className="bg-green-700 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 transition"
+          onClick={() => navigate("/chat")}
+          className="mt-8 bg-green-700 hover:bg-green-800 text-white px-10 py-4 rounded-full text-lg font-semibold shadow-lg transition"
         >
-          Registrar problema
+          Registrar Problema
         </button>
+
+        {/* Estatísticas */}
+        <div className="grid grid-cols-3 gap-8 mt-14">
+          <div>
+            <h3 className="text-3xl font-bold text-green-700">24h</h3>
+            <p className="text-gray-500 text-sm">Resposta rápida</p>
+          </div>
+
+          <div>
+            <h3 className="text-3xl font-bold text-green-700">100%</h3>
+            <p className="text-gray-500 text-sm">Digital</p>
+          </div>
+
+          <div>
+            <h3 className="text-3xl font-bold text-green-700">IA</h3>
+            <p className="text-gray-500 text-sm">Atendimento inteligente</p>
+          </div>
+        </div>
       </main>
 
-      {/* Cards */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 pb-16 max-w-4xl mx-auto w-full">
-        {[
-          { icon: '🕳️', titulo: 'Buraco na via', desc: 'Ruas e calçadas danificadas' },
-          { icon: '💡', titulo: 'Poste apagado', desc: 'Iluminação pública com defeito' },
-          { icon: '💧', titulo: 'Vazamento', desc: 'Água ou esgoto nas ruas' },
-        ].map((item) => (
-          <div key={item.titulo} className="bg-white rounded-2xl shadow p-6 text-center">
-            <div className="text-4xl mb-3">{item.icon}</div>
-            <h3 className="font-semibold text-gray-800">{item.titulo}</h3>
-            <p className="text-gray-500 text-sm mt-1">{item.desc}</p>
-          </div>
-        ))}
-      </section>
+      
 
-      <footer className="text-center text-gray-400 text-sm pb-6">
-        Zelador.IA — Zeladoria urbana inteligente
-      </footer>
+     
     </div>
-  )
+  );
 }

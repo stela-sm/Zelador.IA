@@ -1,7 +1,8 @@
-require("dotenv").config();
+import "dotenv/config";
 
 const auth = (req, res, next) => {
   const secret = req.headers["x-admin-secret"];
+
   console.log(
     "Auth middleware - received secret:",
     secret?.substring(0, 5) + "...",
@@ -20,4 +21,4 @@ const auth = (req, res, next) => {
   next();
 };
 
-module.exports = auth;
+export default auth;

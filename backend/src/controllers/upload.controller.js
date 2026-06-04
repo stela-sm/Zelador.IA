@@ -1,5 +1,5 @@
-const supabase = require("../lib/supabase");
-const multer = require("multer");
+import supabase from "../lib/supabase.js";
+import multer from "multer";
 
 const storage = multer.memoryStorage();
 
@@ -13,34 +13,41 @@ const UploadController = {
     try {
       if (!req.file)
         return res.status(400).json({ error: "Nenhuma imagem enviada" });
-
-      const filename = `${Date.now()}-${req.file.originalname}`;
+      console.log("Supabase URL:", process.env.SUPABASE_URL);
+      console.log("Bucket:", "chamados-imagens");
+      const filename =
+        Date.now() +
+        "-" +
+        req.file.originalname
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "")
+          .replace(/[^a-zA-Z0-9._-]/g, "_");
 
       console.log("Iniciando upload de:", filename);
       console.log("Tamanho do arquivo:", req.file.size, "bytes");
 
-      const { data: uploadData, error: uploadError } = await supabase.storage
+      const { data, error } = await supabase.storage
         .from("chamados-imagens")
         .upload(filename, req.file.buffer, {
           contentType: req.file.mimetype,
         });
 
-      console.log("Upload response:", { data: uploadData, error: uploadError });
-
-      if (uploadError) {
-        console.error("Upload error:", uploadError);
+      if (error) {
+        console.error("Upload error:", error);
         return res.status(500).json({
-          error: uploadError.message,
-          details: uploadError,
+          error: error.message,
+          details: error,
         });
       }
 
+      console.log("Upload response:", { data });
+
       console.log("Criando signed URL para:", filename);
-      const { data, error: signedUrlError } = await supabase.storage
+      const { data: signedData, error: signedUrlError } = await supabase.storage
         .from("chamados-imagens")
         .createSignedUrl(filename, 60 * 60); // 1 hora
 
-      console.log("SignedUrl response:", { data, error: signedUrlError });
+      console.log("SignedUrl response:", { signedData, signedUrlError });
 
       if (signedUrlError) {
         console.error("SignedUrl error:", signedUrlError);
@@ -50,9 +57,8 @@ const UploadController = {
         });
       }
 
-      console.log("Upload sucesso! URL:", data.signedUrl);
-      // Signed URL no formato: /storage/v1/object/sign/... ?token=...
-      return res.json({ url: data.signedUrl });
+      console.log("Upload sucesso! URL:", signedData?.signedUrl);
+      return res.json({ url: signedData.signedUrl });
     } catch (err) {
       console.error("Exception no upload:", err);
       return res.status(500).json({ error: err.message, stack: err.stack });
@@ -60,4 +66,4 @@ const UploadController = {
   },
 };
 
-module.exports = { UploadController, upload };
+export { UploadController, upload };

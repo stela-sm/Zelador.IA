@@ -1,17 +1,14 @@
-const express = require("express");
-const router = express.Router();
-const {
-  UploadController,
-  upload,
-} = require("../controllers/upload.controller");
+import express from "express";
+import { UploadController, upload } from "../controllers/upload.controller.js";
 
-// Middleware para logar requisições
+const router = express.Router();
+
 router.post(
   "/",
   (req, res, next) => {
     console.log("Upload POST recebido");
     console.log("Content-Type:", req.get("content-type"));
-    console.log("Body keys:", Object.keys(req.body));
+    console.log("Body:", req.body);
     console.log("Files:", req.files);
     next();
   },
@@ -32,4 +29,4 @@ router.post(
   UploadController.uploadImagem,
 );
 
-module.exports = router;
+export default router;

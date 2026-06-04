@@ -1,18 +1,17 @@
-# TODO - Ajuste de URL de imagem no Admin
+# TODO
 
-## Step 1
-- [x] Identificar de onde vem `imagem_url` no backend (upload controller).
-- [x] Confirmar que hoje está usando `getPublicUrl` (URL pública) em vez de URL assinada.
+- [x] Convert backend to ES Modules (set `backend/package.json` to `"type":"module"`).
 
-## Step 2
-- [x] Atualizar `backend/src/controllers/upload.controller.js` para retornar **Signed URL** usando `createSignedUrl`.
+- [ ] Convert backend runtime files to ESM:
+  - [x] `backend/index.js`
+  - [x] `backend/src/app.js`
+  - [x] all routes/controllers/models/libs/middleware under `backend/src/**`
 
+- [x] Fix `backend/src/lib/mailer.js` (duplicate imports + hardcoded key) while converting to ESM.
 
-## Step 3
-- [x] Garantir que o admin continue renderizando `c.imagem_url` diretamente (sem mudanças). 
+- [x] Fix `backend/src/controllers/upload.controller.js` (remove `uploadError` undefined usage) while converting to ESM.
 
+- [ ] Smoke test endpoints after conversion.
 
-## Step 4
-- [ ] Testar: fazer upload e conferir se a URL retornada bate com o formato `/storage/v1/object/sign/...?...token=...`.
 
 

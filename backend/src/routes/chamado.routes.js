@@ -1,12 +1,13 @@
-const express = require('express')
-const router = express.Router()
-const ChamadoController = require('../controllers/chamado.controller')
-const auth = require('../middleware/auth')
+import express from "express";
+import ChamadoController from "../controllers/chamado.controller.js";
+import auth from "../middleware/auth.js";
 
-router.post('/', ChamadoController.criar)
-router.get('/', auth, ChamadoController.listar)
-router.get('/:id', auth, ChamadoController.buscarPorId)
-router.patch('/:id/status', auth, ChamadoController.atualizarStatus)
-router.delete('/:id', auth, ChamadoController.deletar)
+const router = express.Router();
 
-module.exports = router
+router.post("/", ChamadoController.criar);
+router.get("/", auth, ChamadoController.listar);
+router.get("/:id", auth, ChamadoController.buscarPorId);
+router.patch("/:id/status", auth, ChamadoController.atualizarStatus);
+router.delete("/:id", auth, ChamadoController.deletar);
+
+export default router;

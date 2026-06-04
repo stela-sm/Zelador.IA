@@ -1,4 +1,4 @@
-const supabase = require("../lib/supabase");
+import supabase from "../lib/supabase.js";
 
 const ChamadoModel = {
   criar: async (dados) => {
@@ -21,8 +21,9 @@ const ChamadoModel = {
         .from("chamados")
         .select("*")
         .order("created_at", { ascending: false });
+
       console.log("Dados recebidos do Supabase:", data);
-      // Return empty array if there's any error
+
       if (error) return { data: [], error: null };
       return { data: data || [], error: null };
     } catch (err) {
@@ -73,4 +74,4 @@ const ChamadoModel = {
   },
 };
 
-module.exports = ChamadoModel;
+export default ChamadoModel;

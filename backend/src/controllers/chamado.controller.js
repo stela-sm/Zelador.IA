@@ -1,6 +1,6 @@
-const ChamadoModel = require("../models/chamado.model");
-const { classificarProblema } = require("../lib/groq");
-const { enviarEmailStatus } = require("../lib/mailer");
+import ChamadoModel from "../models/chamado.model.js";
+import { classificarProblema } from "../lib/groq.js";
+import { mail } from "../lib/resend.js";
 
 const gerarProtocolo = () => {
   const data = new Date();
@@ -23,7 +23,9 @@ const ChamadoController = {
         latitude,
         longitude,
       } = req.body;
+
       console.log("imagem_url recebida:", imagem_url);
+
       if (!nome || !telefone || !descricao) {
         return res
           .status(400)
@@ -47,6 +49,10 @@ const ChamadoController = {
 
       if (error) return res.status(500).json({ error: error.message });
 
+      mail(email, "Criado", protocolo).catch((err) => {
+        console.error("Erro ao enviar email:", err);
+      });
+
       return res.status(201).json(data);
     } catch (err) {
       return res.status(500).json({ error: err.message });
@@ -69,6 +75,7 @@ const ChamadoController = {
     try {
       const { id } = req.params;
       const { data, error } = await ChamadoModel.buscarPorId(id);
+
       if (error)
         return res.status(404).json({ error: "Chamado não encontrado" });
       return res.json(data);
@@ -90,15 +97,9 @@ const ChamadoController = {
       const { data, error } = await ChamadoModel.atualizarStatus(id, status);
       if (error) return res.status(500).json({ error: error.message });
 
-      // envia email se tiver email cadastrado
-      if (data.email) {
-        await enviarEmailStatus({
-          email: data.email,
-          nome: data.nome,
-          protocolo: data.protocolo,
-          status: data.status,
-        });
-      }
+      mail(data.email, status, data.protocolo).catch((err) => {
+        console.error("Erro ao enviar email:", data);
+      });
 
       return res.json(data);
     } catch (err) {
@@ -118,4 +119,4 @@ const ChamadoController = {
   },
 };
 
-module.exports = ChamadoController;
+export default ChamadoController;
