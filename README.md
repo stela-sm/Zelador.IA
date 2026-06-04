@@ -12,7 +12,7 @@ Plataforma web de zeladoria urbana onde cidadãos podem registrar problemas da c
 - **Upload de imagem** — Cidadão pode enviar foto do problema
 - **Classificação por IA** — Groq classifica automaticamente a categoria do problema (buraco, poste, vazamento, etc)
 - **Número de protocolo** — Gerado automaticamente ao registrar o chamado
-- **Painel Administrativo** — Visualização, alteração de status e imagens dos chamados
+- **Painel Administrativo** — Visualização, alteração de status e imagens dos chamados - senha atual para testes é admin2026
 - **Notificação por email** — Cidadão recebe email ao ter o status do chamado atualizado
 
 ## 🛠️ Tecnologias
